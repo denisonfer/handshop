@@ -1,5 +1,7 @@
 import Routes from './src/routes';
 
+import './reactotron';
+
 import { Amplify } from 'aws-amplify';
 
 import { Authenticator } from '@aws-amplify/ui-react-native';
