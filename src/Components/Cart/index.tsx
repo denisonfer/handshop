@@ -1,13 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useMemo } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React, { memo, useMemo } from 'react';
+import { Text, TouchableOpacity } from 'react-native';
+import { PropsProductsScreens } from '../../routes/interfaces';
 import { useCartStore } from '../../store/cart/useCartStore';
+import { styles } from './styles';
 
 const Cart = () => {
-  const { items } = useCartStore();
-  if (!items.length) return;
-
-  const { navigate } = useNavigation();
+  const { navigate } = useNavigation<PropsProductsScreens>();
+  const items = useCartStore((state) => state.items);
 
   const quantityTotalInCart = useMemo(() => {
     return items.reduce((total, item) => total + item.quantity, 0);
@@ -24,17 +24,4 @@ const Cart = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'red',
-    height: 60,
-    alignItems: 'center',
-  },
-  label: {
-    fontSize: 16,
-    color: 'white',
-    marginTop: 10,
-  },
-});
-
-export default Cart;
+export default memo(Cart);

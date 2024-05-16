@@ -1,10 +1,13 @@
-import React from 'react';
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React, { Fragment } from 'react';
+import { FlatList, Text, View } from 'react-native';
 import Cart from '../../Components/Cart';
+import { useCartStore } from '../../store/cart/useCartStore';
 import ProductItem from './ProductItem';
 import { IProduct } from './interface';
+import { styles } from './styles';
 
 const ProductsList: React.FC = () => {
+  const hasItem = useCartStore((state) => state.items.length);
   const productsData: IProduct[] = [
     {
       id: 1,
@@ -50,7 +53,7 @@ const ProductsList: React.FC = () => {
     },
   ];
   return (
-    <>
+    <Fragment>
       <View style={styles.container}>
         <Text style={styles.title}>
           A Melhor loja da Internet, confira os produtos abaixo:
@@ -63,23 +66,9 @@ const ProductsList: React.FC = () => {
           showsVerticalScrollIndicator={false}
         />
       </View>
-      <Cart />
-    </>
+      {hasItem > 0 && <Cart />}
+    </Fragment>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    padding: 8,
-  },
-  title: {
-    fontSize: 20,
-    color: 'black',
-    fontWeight: 'bold',
-    marginBottom: 36,
-  },
-});
 
 export default ProductsList;

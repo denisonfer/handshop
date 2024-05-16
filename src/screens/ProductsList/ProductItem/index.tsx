@@ -1,11 +1,12 @@
 import Ionicons from '@expo/vector-icons/Ionicons';
-import React, { useCallback } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React from 'react';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
 import { PropsProductsScreens } from '../../../routes/interfaces';
 import { useCartStore } from '../../../store/cart/useCartStore';
 import { IProduct } from '../interface';
+import { styles } from './styles';
 
 interface IProps {
   product: IProduct;
@@ -14,21 +15,18 @@ interface IProps {
 const ProductItem = ({ product }: IProps) => {
   const { navigate } = useNavigation<PropsProductsScreens>();
 
-  const { addToCart } = useCartStore.getState();
+  const addToCart = useCartStore((state) => state.addToCart);
 
-  const addProductInCart = useCallback((productItem: IProduct) => {
-    addToCart(productItem);
-  }, []);
+  const addProductInCart = () => {
+    addToCart(product);
+  };
 
-  const viewProduct = useCallback((product: IProduct) => {
+  const viewProduct = () => {
     navigate('ProductDetail', { product });
-  }, []);
+  };
 
   return (
-    <TouchableOpacity
-      style={styles.container}
-      onPress={() => viewProduct(product)}
-    >
+    <TouchableOpacity style={styles.container} onPress={viewProduct}>
       <Image
         source={{ uri: product.image }}
         width={150}
@@ -43,58 +41,12 @@ const ProductItem = ({ product }: IProps) => {
           <Text style={styles.subtitle}>R$ {product.price}</Text>
         </View>
 
-        <TouchableOpacity
-          onPress={() => addProductInCart(product)}
-          style={styles.icon}
-        >
+        <TouchableOpacity onPress={addProductInCart} style={styles.icon}>
           <Ionicons name='cart-outline' size={18} />
         </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 10,
-    marginBottom: 36,
-    borderRadius: 8,
-    backgroundColor: '#e6ebf2',
-  },
-  row: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 'auto',
-    paddingTop: 8,
-    paddingHorizontal: 8,
-    backgroundColor: 'white',
-    marginHorizontal: 5,
-    borderRadius: 4,
-  },
-  infoContainer: {
-    flex: 1,
-  },
-  title: {
-    fontSize: 16,
-    color: 'black',
-    fontWeight: 'bold',
-    marginBottom: 8,
-  },
-  subtitle: {
-    fontSize: 16,
-    fontWeight: '600',
-  },
-  icon: {
-    width: 45,
-    height: 45,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#e6ebf2',
-    borderRadius: 100,
-  },
-});
 
 export default ProductItem;

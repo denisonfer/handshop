@@ -2,13 +2,19 @@ import Routes from './src/routes';
 
 import { Amplify } from 'aws-amplify';
 
-import { withAuthenticator } from '@aws-amplify/ui-react-native';
+import { Authenticator } from '@aws-amplify/ui-react-native';
 
 import amplifyconfig from './src/amplifyconfiguration.json';
 Amplify.configure(amplifyconfig);
 
 function App() {
-  return <Routes />;
+  return (
+    <Authenticator.Provider>
+      <Authenticator>
+        <Routes />
+      </Authenticator>
+    </Authenticator.Provider>
+  );
 }
 
-export default withAuthenticator(App);
+export default App;
