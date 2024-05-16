@@ -1,7 +1,7 @@
 import { AntDesign, Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect } from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View } from 'react-native';
 import { IProductInCart } from '../../store/cart/interfaces';
 import { useCartStore } from '../../store/cart/useCartStore';
 import { styles } from './styles';
@@ -9,18 +9,21 @@ import { styles } from './styles';
 const Cart = () => {
   const { items } = useCartStore();
   const { goBack } = useNavigation();
-  const { addToCart, removeFromCart } = useCartStore.getState();
+  const { addToCart, removeFromCart, removeItem } = useCartStore();
 
   useEffect(() => {
     if (!items.length) return goBack();
   }, [items]);
 
   const amountItem = (item: IProductInCart) => {
-    return Math.round(item.price * item.quantity);
+    return (item.price * item.quantity).toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL',
+    });
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {items.map((product) => (
         <View key={String(product.id)} style={styles.item}>
           <View style={styles.leftContent}>
@@ -36,7 +39,11 @@ const Cart = () => {
           </View>
 
           <View style={styles.centerContent}>
-            <Ionicons name='remove-circle' size={26} onPress={() => {}} />
+            <Ionicons
+              name='remove-circle'
+              size={26}
+              onPress={() => removeItem(product.id)}
+            />
             <Text style={[styles.title, { marginHorizontal: 10 }]}>
               {product.quantity}
             </Text>
@@ -48,7 +55,7 @@ const Cart = () => {
           </View>
 
           <View style={styles.rightContent}>
-            <Text style={styles.title}>R$ {amountItem(product)}</Text>
+            <Text style={styles.title}>{amountItem(product)}</Text>
 
             <AntDesign
               name='delete'
@@ -58,7 +65,7 @@ const Cart = () => {
           </View>
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 };
 

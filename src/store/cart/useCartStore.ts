@@ -19,6 +19,12 @@ export const useCartStore = create<ICartStore>((set) => ({
       // Se o produto não estiver no carrinho, adiciona com quantidade 1
       return { items: [...state.items, { ...product, quantity: 1 }] };
     }),
+  removeItem: (itemId) =>
+    set((state) => ({
+      items: state.items
+        .map((p) => (p.id === itemId ? { ...p, quantity: p.quantity - 1 } : p))
+        .filter((p) => p.quantity > 0),
+    })),
   removeFromCart: (productId) =>
     set((state) => ({
       items: state.items.filter((item) => item.id !== productId),

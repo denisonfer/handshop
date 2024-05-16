@@ -7,6 +7,7 @@ export interface IProductInCart extends IProduct {
 export interface ICartStore {
   items: IProductInCart[];
   addToCart: (product: IProduct) => void;
+  removeItem: (itemId: number) => void;
   removeFromCart: (itemId: number) => void;
   clearCart: () => void;
 }

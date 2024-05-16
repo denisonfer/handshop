@@ -34,7 +34,6 @@ export const styles = StyleSheet.create({
     justifyContent: 'space-between',
     flex: 1,
   },
-
   image: {
     width: 65,
     height: 65,
