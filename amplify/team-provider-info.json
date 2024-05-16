@@ -10,6 +10,11 @@
       "StackName": "amplify-handshop-dev-8fc05",
       "StackId": "arn:aws:cloudformation:sa-east-1:533267078684:stack/amplify-handshop-dev-8fc05/0987c600-1327-11ef-8fcc-028479c7fc69",
       "AmplifyAppId": "dt4bd3owmqowc"
+    },
+    "categories": {
+      "auth": {
+        "handshopb0674b51": {}
+      }
     }
   }
 }
