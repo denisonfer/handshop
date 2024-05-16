@@ -7,12 +7,14 @@ import { useAuthenticator } from '@aws-amplify/ui-react-native';
 import Cart from '../screens/Cart';
 import ProductsList from '../screens/ProductsList';
 import ProductDetail from '../screens/ProductsList/ProductDetail';
+import { useCartStore } from '../store/cart/useCartStore';
 import { ProductStackParamList } from './interfaces';
 
 const Stack = createNativeStackNavigator<ProductStackParamList>();
 
 const Routes = () => {
   const { signOut } = useAuthenticator();
+  const { clearCart } = useCartStore();
 
   return (
     <NavigationContainer>
@@ -40,7 +42,12 @@ const Routes = () => {
         <Stack.Screen
           name='Cart'
           component={Cart}
-          options={{ title: 'Carrinho de compras' }}
+          options={{
+            title: 'Carrinho de compras',
+            headerRight: () => (
+              <Ionicons name='bag-remove' size={26} onPress={clearCart} />
+            ),
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>

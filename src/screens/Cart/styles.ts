@@ -47,4 +47,17 @@ export const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontSize: 14,
   },
+  amountContainer: {
+    backgroundColor: 'green',
+    height: 85,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 'auto',
+  },
+  amountTitle: {
+    fontWeight: 'bold',
+    fontSize: 24,
+    color: 'white',
+    marginBottom: 20,
+  },
 });
